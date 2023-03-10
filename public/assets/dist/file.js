@@ -162,33 +162,7 @@ document.getElementById("btn_convert").addEventListener("click", function () {
     var namamedia =
       localStorage.getItem("deviceIDi") + "_" + generateString(15);
     var dataURL = canvas.toDataURL();
-
-    // ambil data JSON dari local storage
-    var mymedia = localStorage.getItem("myMEDIA");
-
-    // jika nilai mymedia adalah null atau undefined, buat objek baru dengan array kosong
-    if (!mymedia) {
-      mymedia = JSON.stringify({
-        items: [],
-      });
-    } else {
-      // konversi data JSON menjadi objek JavaScript
-      var mymediaObject = JSON.parse(mymedia);
-
-      // jika nilai mymediaObject.items adalah undefined, buat array baru
-      if (!mymediaObject.items) {
-        mymediaObject.items = [];
-      }
-
-      // tambahkan item baru ke dalam array
-      mymediaObject = { id: namamedia, data: dataURL };
-
-      // konversi objek JavaScript menjadi JSON string
-      mymedia = JSON.stringify(mymediaObject);
-    }
-
-    // simpan data JSON yang telah diperbarui kembali ke local storage
-    localStorage.setItem("myMEDIA", mymedia);
+    localStorage.setItem("myMEDIA", dataURL);
 
     var datasend = {
       id: namamedia,
