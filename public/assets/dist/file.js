@@ -70,7 +70,11 @@ $(document).ready(function () {
     .getElementById("imgfarmer")
     .addEventListener("touchend", enableScroll);
   var namafilenyaq =
-    localStorage.getItem("deviceIDi") + "_" + generateString(15);
+    Date.now() +
+    "_" +
+    localStorage.getItem("deviceIDi") +
+    "_" +
+    generateString(17);
   $("#namaupload").val(namafilenyaq);
   $("#hidden_datanama").val(namafilenyaq);
   $("#hidden_datauser").val(localStorage.getItem("deviceIDi"));
@@ -104,25 +108,6 @@ $(document).ready(function () {
       100 + (100 * val) / 110 + "%"
     );
   }
-
-  $("#bwee").submit(function (event) {
-    $("#barload").show();
-    $("#bwee").hide();
-    var nama1 = $("#hidden_fullname").val();
-    var nama2 = $("#hidden_noreg").val();
-    localStorage.setItem("nama", nama1);
-    localStorage.setItem("noreg", nama2);
-    console.log("SUBMIT" + nama2);
-    $("#framesub").on("load", function () {
-      $("#barload").hide();
-      console.log("terkirim");
-      $("#modfinis").html(
-        "File Telah telah terkirim silahkan buat foto bingkai lagi"
-      );
-      $("#hidden_fullname").val(localStorage.getItem("nama"));
-      $("#hidden_noreg").val(localStorage.getItem("noreg"));
-    });
-  });
 });
 
 $("input[name='FileOne']").on("change", function (event1) {
@@ -131,7 +116,7 @@ $("input[name='FileOne']").on("change", function (event1) {
   $("#namaupload").val(namafilenya);
   $("#hidden_datanama").val(namafilenya);
   $("#customRange3").show();
-  $("#bwee").hide();
+
   $("#modfinis").html(" ");
   src1 = URL.createObjectURL(event1.target.files[0]);
   document.querySelector("[for=FileOne]").style.backgroundImage =
@@ -157,11 +142,59 @@ document.getElementById("btn_convert").addEventListener("click", function () {
     anchorTag.href = canvas.toDataURL();
     anchorTag.target = "_blank";
     anchorTag.click();
+
+    var namamedia =
+      Date.now() + localStorage.getItem("deviceIDi") + "_" + generateString(15);
     var dataURL = canvas.toDataURL();
-    document.getElementById("hidden_data").value = dataURL;
-    $("#barload").hide();
-    $("#bwee").show();
-    //$( "#bwee" ).submit();
+    var namamedia =
+      localStorage.getItem("deviceIDi") + "_" + generateString(15);
+    var dataURL = canvas.toDataURL();
+
+    // ambil data JSON dari local storage
+    var mymedia = localStorage.getItem("myMEDIA");
+
+    // jika nilai mymedia adalah null atau undefined, buat objek baru dengan array kosong
+    if (!mymedia) {
+      mymedia = JSON.stringify({
+        items: [],
+      });
+    } else {
+      // konversi data JSON menjadi objek JavaScript
+      var mymediaObject = JSON.parse(mymedia);
+
+      // jika nilai mymediaObject.items adalah undefined, buat array baru
+      if (!mymediaObject.items) {
+        mymediaObject.items = [];
+      }
+
+      // tambahkan item baru ke dalam array
+      mymediaObject.items.push({ id: namamedia, data: dataURL });
+
+      // konversi objek JavaScript menjadi JSON string
+      mymedia = JSON.stringify(mymediaObject);
+    }
+
+    // simpan data JSON yang telah diperbarui kembali ke local storage
+    localStorage.setItem("myMEDIA", mymedia);
+
+    var datasend = JSON.stringify({
+      id: namamedia,
+      data: dataURL,
+    });
+    var settings = {
+      url: "/media",
+      method: "POST",
+      timeout: 0,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: datasend,
+    };
+
+    $.ajax(settings).done(function (response) {
+      console.log(response);
+      $("#barload").hide();
+    });
 
     $("#modte").html(
       "File Telah di download silahkan Check di Folder Download browser"
