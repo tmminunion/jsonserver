@@ -1,0 +1,117 @@
+
+
+  <!-- starrow edit -->
+  <div class="row">
+    <div class="col-sm-9 col-md-7 col-lg-6 m-auto">
+      <div
+        for="FileOne"
+        id="html-content-holder"
+        class="ratio ratio-1x1"
+        alt="Responsive image"
+        style="
+          position: relative;
+          background-image: url('');
+          background-repeat: no-repeat;
+          padding: 0px;
+          width: 100%;
+        "
+      >
+        <div id="myDIV">
+          <img class="resizable" src="" />
+        </div>
+
+        <img
+          src="images/rakernit2022/18.png"
+          data-id="18"
+          class="img-fluid"
+          style=""
+          alt="Responsive image"
+          id="imgfarmer"
+        />
+
+        <!-- partial -->
+      </div>
+
+      <input
+        type="range"
+        class="form-range"
+        id="customRange3"
+        min="-50"
+        max="200"
+        value="50"
+      />
+      <input type="text" id="data" style="display: none" />
+      <input type="text" id="namaupload" style="display: none" />
+      <div class="d-grid gap-2 col-6 mx-auto">
+        <input
+          id="btn_convert"
+          type="button"
+          value="Download"
+          class="btn btn-primary btn-lg"
+          style="display: none"
+        />
+      </div>
+
+      <div id="previewImg" style="display: none"></div>
+      <img
+        src="img/barload.gif"
+        id="barload"
+        style="width: 250px; display: none"
+      />
+      <span id="modfinis"></span>
+
+      <form
+        method="post"
+        accept-charset="utf-8"
+        name="form1"
+        target="my-iframe"
+        action="upload.php"
+        id="bwee"
+        style="display: none"
+      >
+        <input name="hidden_data" id="hidden_data" type="hidden" />
+        <input name="hidden_datanama" id="hidden_datanama" type="hidden" />
+        <input name="hidden_datauser" id="hidden_datauser" type="hidden" />
+        <input name="hidden_datatype" id="hidden_datatype" type="hidden" />
+
+        <div class="form-group">
+          <label for="formGroupExampleInput">Nama :</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Nama"
+            id="hidden_fullname"
+            name="fullname"
+          />
+        </div>
+        <div class="form-group">
+          <label for="formGroupExampleInput2">Noreg</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Noreg"
+            id="hidden_noreg"
+            name="noreg"
+          />
+        </div>
+        <div class="form-group py-3">
+          <input
+            type="submit"
+            value="Kirim Foto Untuk Doorprize"
+            id="upsum"
+            class="btn btn-primary btn-lg"
+          />
+        </div>
+      </form>
+
+      <iframe
+        name="my-iframe"
+        src=""
+        id="framesub"
+        style="display: none"
+      ></iframe>
+      <script type="text/javascript" src="assets/dist/file.js"></script>
+    </div>
+  </div>
+  <!-- endrowedit -->
+</div>
