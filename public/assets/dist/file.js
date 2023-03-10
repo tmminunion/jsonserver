@@ -1,3 +1,16 @@
+const firebaseConfig = {
+  apiKey: "AIzaSyCLrrHPpzXDe7G_-YIqV9u9KjLxn_qp6GA",
+  authDomain: "bt-twinbones.firebaseapp.com",
+  databaseURL:
+    "https://bt-twinbones-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bt-twinbones",
+  storageBucket: "bt-twinbones.appspot.com",
+  messagingSenderId: "1001457417065",
+  appId: "1:1001457417065:web:cb604a63a155f5cd3edbf8",
+};
+
+firebase.initializeApp(firebaseConfig);
+
 var keys = { 37: 1, 38: 1, 39: 1, 40: 1 };
 
 function preventDefault(e) {
@@ -168,7 +181,7 @@ document.getElementById("btn_convert").addEventListener("click", function () {
       }
 
       // tambahkan item baru ke dalam array
-      mymediaObject.items.push({ id: namamedia, data: dataURL });
+      mymediaObject = { id: namamedia, data: dataURL };
 
       // konversi objek JavaScript menjadi JSON string
       mymedia = JSON.stringify(mymediaObject);
@@ -177,29 +190,19 @@ document.getElementById("btn_convert").addEventListener("click", function () {
     // simpan data JSON yang telah diperbarui kembali ke local storage
     localStorage.setItem("myMEDIA", mymedia);
 
-    var datasend = JSON.stringify({
+    var datasend = {
       id: namamedia,
       data: dataURL,
-    });
-    var settings = {
-      url: "/media",
-      method: "POST",
-      timeout: 0,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      data: datasend,
     };
 
-    $.ajax(settings).done(function (response) {
-      console.log(response);
-      $("#barload").hide();
-    });
+    firebase
+      .database()
+      .ref("media/" + namamedia)
+      .set(datasend),
+      $("#modte").html(
+        "File Telah di download silahkan Check di Folder Download browser"
+      );
 
-    $("#modte").html(
-      "File Telah di download silahkan Check di Folder Download browser"
-    );
-
-    // $("#upsum").click();
+    $("#barload").hide();
   });
 });

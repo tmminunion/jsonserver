@@ -15,7 +15,9 @@
   <meta property="og:description" content="pembuat avatar foto dengan bingkai edisi rakernik 2022. silahkan di share dan digunakan untuk meriahkan event rakernik 2022" />
   <meta property="og:url" content="https://bungtemin.com/tw" />
   <meta property="og:image" content="https://bungtemin.com/tw/foto.jpg" />
-
+ <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-installations.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
   <script src="assets/fot.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/interactjs/dist/interact.min.js"></script>
@@ -147,42 +149,34 @@
 	<input name="hidden_datauser" id='hidden_datauser' type="hidden"/>
 </div>
   <script>
+    const firebaseConfig = {
+  apiKey: "AIzaSyCLrrHPpzXDe7G_-YIqV9u9KjLxn_qp6GA",
+  authDomain: "bt-twinbones.firebaseapp.com",
+  databaseURL:
+    "https://bt-twinbones-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "bt-twinbones",
+  storageBucket: "bt-twinbones.appspot.com",
+  messagingSenderId: "1001457417065",
+  appId: "1:1001457417065:web:cb604a63a155f5cd3edbf8",
+};
+
+firebase.initializeApp(firebaseConfig);
 $(document).ready(function(){
-  
-    var page = 1;
-    var limit = 10;
-
-    function loadMedia() {
-        $.get('/media', { _page: page, _limit: limit }, function(data) {
-            console.log(data);
-            var count = data.length;
-            for (var i in data) {
-                var inner ='<div class="col py-1"><div class="card shadow-sm"><img src="'+ data[i].data+'" class="img-fluid" alt="Responsive image" id="imgfarmer" /></div></div>';
-                $( "#listnya" ).prepend( inner );
-            }
-        }).fail(function(xhr, status, error) {
-            var err = eval("(" + xhr.responseText + ")");
-            alert(err.Message);
-        });
-    }
-  
-    // Load data on initial page load
-    loadMedia();
-  
-    // Pagination controls
-    $('#prevPage').click(function() {
-        if (page > 1) {
-            page--;
-            $( "#listnya" ).empty();
-            loadMedia();
+  var starCountRef = firebase
+      .database().ref("media/");
+          starCountRef.on("value", (a) => {
+        const e = a.val();
+        for (let a in e) {
+            var inner =`<div class="col py-1" id="${a}"><div class="card shadow-sm"><img src="${e[a].data}" class="img-fluid" alt="Responsive image" id="imgfarmer" /></div></div>`;
+        
+          if (0 == !!document.getElementById(a)) {
+            var n = document.getElementById("chatlist");
+            
+              $( "#listnya" ).prepend( inner );
+          }
         }
-    });
-
-    $('#nextPage').click(function() {
-        page++;
-        $( "#listnya" ).empty();
-        loadMedia();
-    });
+      });
+  
 });
 
         </script>
